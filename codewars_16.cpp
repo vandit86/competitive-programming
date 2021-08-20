@@ -1,9 +1,7 @@
 // https://www.codewars.com/kata/5324945e2ece5e1f32000370/train/cpp
 
 #include<iostream>
-#include<vector>
 #include <string>
-#include <algorithm>
 
 using namespace std; 
 
@@ -26,7 +24,6 @@ std::string sum_strings(const std::string& a, const std::string& b) {
     }
     res.insert(0,1,numC+'0');    
   }
-  //if (flag) res.insert(0,1,'1'); 
   return res;
 }
 
