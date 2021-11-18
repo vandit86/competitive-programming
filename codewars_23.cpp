@@ -24,58 +24,46 @@ public:
     {
         if (k > (int)ls.size())
             return -1;
-        // create sub vect and sort
-        vector<int> sub = {ls.begin(), ls.begin() + k};
-        sort(sub.begin(), sub.end());
 
-        int dSum = 0;
-        dSum = accumulate(sub.begin(), sub.end(), 0); // get sum
-
-        for (auto it = ls.begin() + k; it != ls.end(); it++)
-        {
-
-            if (dSum < limit)
-            {
-                for (auto jt = sub.begin(); jt != sub.end(); jt++)
-                {
-                    int val = dSum - *jt + *it; 
-                    if ( val > dSum && val <= limit ){
-                        *jt = *it; 
-                        dSum = val; 
-                        break ; 
+        int dSum = -1;
+        // for (auto &i : ls ) cout << i <<" , "; 
+        // cout << "\n l = " << limit << "k = " << k << endl ; 
+        for (auto ib = ls.begin()+k, ia = ls.begin(); 
+                                ib !=ls.end(); ib ++, ia++){
+            int iSum = accumulate(ia, ib, 0); // get sum of carrier
+            int aSum = 0;
+            for (auto jt = ls.begin(); jt != ls.end() ; jt ++){
+                if (jt >= ia && jt < ib) continue; // if we in carrier
+                
+                aSum = -1;                 
+                for (auto ii = ia; ii != ib; ii++){
+                    int val = iSum - *ii + *jt;
+                    if (val <= limit && val > aSum){
+                        aSum = val;
                     }
                 }
+                if (aSum > dSum) dSum = aSum;
             }
-            /*  recerce iteration */
-            else if (dSum > limit){
-                for (auto jt = sub.rbegin(); jt != sub.rend(); jt++)
-                {
-                    int val = dSum - *jt + *it;
-                    if (val < dSum && val <= limit){
-                        *jt = *it; 
-                        dSum = val; 
-                        break;
-                    }
-                }
-            }
-            
-            // for (auto &i : sub)
-            // {
-            //     cout << " " << i;
-            // }
-            // cout << "\n*it " << *it << endl ; 
-
-            // sort(sub.begin(), sub.end()); // sort
+            if (iSum > dSum && iSum <= limit) dSum = iSum;
         }
+
         return (dSum>limit)?-1:dSum;
     }
 };
 
 int main(int argc, char const *argv[])
 {
-    std::vector<int> ts = {50, 55, 56, 57, 58,10};
-    std::vector<int> tsbb = {100, 76, 56, 44, 89, 73, 68, 56, 64, 123, 2333, 144, 50};
-    int n = BestTravel::chooseBestSum(163, 4, tsbb);
-    cout << "sum =" << n;
+    // std::vector<int> ts = {50, 55, 56, 57, 58,10};
+    // int n = BestTravel::chooseBestSum(163, 3, ts); // 163
+    
+    //std::vector<int> ts = {91, 74, 73, 85, 73, 81, 87};
+    // int n = BestTravel::chooseBestSum(230, 3, ts); // 228
+    // int n = BestTravel::chooseBestSum(331, 2, ts); // 178
+    //int n = BestTravel::chooseBestSum(331, 5, ts); // -1
+    
+    std::vector<int> tsbb = {100, 76, 56, 44, 89, 73, 68, 56, 64, 123, 2333, 144, 50,132, 123, 34, 89};
+    int n = BestTravel::chooseBestSum(230, 4, tsbb); // 230 
+    // int n = BestTravel::chooseBestSum(430, 5, tsbb); // 430 actual 427 
+    cout << "\nsum =" << n;
     return 0;
 }
