@@ -8,6 +8,11 @@
  * this list has at least one element). The function returns the "best" sum 
  * ie the biggest possible sum of k distances less than or equal to the given 
  * limit t, if that sum exists, or -1 otherwise
+ * 
+ * NOTES : ~
+ * Note that each combination of 3 objects yields 6, or 3! permutations
+ * https://www.math10.com/en/algebra/probabilities/combinations/combinations.html
+ * https://www.geeksforgeeks.org/all-unique-combinations-whose-sum-equals-to-k/
 */
 
 #include <iostream>
@@ -24,30 +29,18 @@ public:
     {
         if (k > (int)ls.size())
             return -1;
+        int dSum = -1 ; 
 
-        int dSum = -1;
-        // for (auto &i : ls ) cout << i <<" , "; 
-        // cout << "\n l = " << limit << "k = " << k << endl ; 
-        for (auto ib = ls.begin()+k, ia = ls.begin(); 
-                                ib !=ls.end(); ib ++, ia++){
-            int iSum = accumulate(ia, ib, 0); // get sum of carrier
-            int aSum = 0;
-            for (auto jt = ls.begin(); jt != ls.end() ; jt ++){
-                if (jt >= ia && jt < ib) continue; // if we in carrier
-                
-                aSum = -1;                 
-                for (auto ii = ia; ii != ib; ii++){
-                    int val = iSum - *ii + *jt;
-                    if (val <= limit && val > aSum){
-                        aSum = val;
-                    }
-                }
-                if (aSum > dSum) dSum = aSum;
-            }
-            if (iSum > dSum && iSum <= limit) dSum = iSum;
-        }
+        std::sort(ls.begin(), ls.end());
+        do
+        {
+            //for (auto &i : ls ) cout << i << ", " ; 
+            //cout << endl ; 
+            int sum = accumulate (ls.begin(), ls.begin()+k, 0); 
+            if (sum <= limit && dSum < sum) dSum = sum; 
+        } while (std::next_permutation(ls.begin(), ls.end()));
 
-        return (dSum>limit)?-1:dSum;
+        return (dSum > limit) ? -1 : dSum;
     }
 };
 
