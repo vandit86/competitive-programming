@@ -13,6 +13,10 @@
  * Note that each combination of 3 objects yields 6, or 3! permutations
  * https://www.math10.com/en/algebra/probabilities/combinations/combinations.html
  * https://www.geeksforgeeks.org/all-unique-combinations-whose-sum-equals-to-k/
+ * 
+ * roseta code 
+ * https://stackoverflow.com/questions/12991758/creating-all-possible-k-combinations-of-n-items-in-c/28698654
+ * 
 */
 
 #include <iostream>
@@ -29,18 +33,28 @@ public:
     {
         if (k > (int)ls.size())
             return -1;
-        int dSum = -1 ; 
-
-        std::sort(ls.begin(), ls.end());
+        int dSum = -1 ;
+        size_t N = ls.size();  
+        vector<bool> sig (k,true); 
+        sig.resize (N, false); 
+        //std::sort(ls.begin(), ls.end());
         do
         {
-            //for (auto &i : ls ) cout << i << ", " ; 
-            //cout << endl ; 
-            int sum = accumulate (ls.begin(), ls.begin()+k, 0); 
-            if (sum <= limit && dSum < sum) dSum = sum; 
-        } while (std::next_permutation(ls.begin(), ls.end()));
+            // for (auto i : sig ) cout << i << ", " ; 
+            // cout << endl; 
+            int sum = 0; 
+            for (size_t i = 0; i < N; i++)
+            {
+                if (sig[i]){
+                    sum += ls[i];
+                    if (sum > limit) break ; 
+                }
+            }
+            if (sum > dSum && sum <=limit) dSum = sum;  
 
-        return (dSum > limit) ? -1 : dSum;
+        } while (std::prev_permutation(sig.begin(), sig.end()));
+
+        return dSum;
     }
 };
 
