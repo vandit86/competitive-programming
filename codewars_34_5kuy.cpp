@@ -3,6 +3,9 @@
 https://www.codewars.com/kata/5c09ccc9b48e912946000157/train/cpp
 A bird flying high above a mountain range is able to estimate the height of the highest peak.
 
+This is other solutio that i'm like : 
+https://www.codewars.com/kata/reviews/5d621921b612400001c8f38b/groups/5d698194c38e3900012496c2
+
 ^^^^^^
  ^^^^^^^^
   ^^^^^^^
